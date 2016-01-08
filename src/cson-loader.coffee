@@ -1,5 +1,11 @@
 cson = require 'cson-parser'
+loaderUtils = require 'loader-utils'
 
 module.exports = (contents) ->
   @cacheable?()
-  "module.exports = " + JSON.stringify cson.parse contents
+  query = loaderUtils.parseQuery @query
+  jsonString = JSON.stringify cson.parse contents
+  if query.file
+    jsonString
+  else
+    "module.exports = " + jsonString
